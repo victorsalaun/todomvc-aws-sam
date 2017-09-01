@@ -1,0 +1,29 @@
+# To deploy for the first time, and for each update,
+# run both of the following commands in order:
+#
+# aws cloudformation package \
+# --template-file todomvc.cfn.yml \
+# --output-template-file serverless-xfm.cfn.yml \
+# --s3-bucket <your-s3-bucket-name>
+#
+# aws cloudformation deploy \
+# --template-file <path-to-file/serverless-xfm.cfn.yml> \
+# --stack-name StartupKitServerless \
+# --capabilities CAPABILITY_IAM
+
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: TodoMVC AWS SAM
+
+Resources:
+
+  TodoTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+         Name: todo_id
+         Type: String
+      ProvisionedThroughput:
+         ReadCapacityUnits: 5
+         WriteCapacityUnits: 5
