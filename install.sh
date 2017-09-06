@@ -52,8 +52,3 @@ REST_API_ID=`aws cloudformation list-stack-resources --stack-name ${STACK_NAME} 
 REST_API_URL="https://${REST_API_ID}.execute-api.${REGION}.amazonaws.com/Stage"
 
 echo "The rest API url is ${REST_API_URL}"
-echo "You can try adding a new to do item by running the following command:"
-echo "curl -X POST -H 'Content-Type: application/json' -d '${JSON_CONTENT}' ${REST_API_URL}/todo/new"
-echo ""
-echo "To fetch the active TODO items you created, execute the following command:"
-echo "curl ${REST_API_URL}/todo/active"

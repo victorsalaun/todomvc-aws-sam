@@ -23,6 +23,14 @@ else
     exit 1
 fi
 
+# try to empty the bucket
+if aws s3 rb s3://${BUCKET_NAME} --force; then
+    echo "Bucket s3://${BUCKET_NAME} emptied successfully"
+else
+    echo "Failed emptying bucket s3://${BUCKET_NAME}"
+    exit 1
+fi
+
 # Try to remove the bucket
 if aws s3 rb s3://${BUCKET_NAME}; then
     echo "Bucket s3://${BUCKET_NAME} removed successfully"
