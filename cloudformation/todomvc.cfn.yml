@@ -11,7 +11,6 @@
 # --stack-name StartupKitServerless \
 # --capabilities CAPABILITY_IAM
 
-
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: TodoMVC AWS SAM
@@ -27,3 +26,39 @@ Resources:
       ProvisionedThroughput:
          ReadCapacityUnits: 5
          WriteCapacityUnits: 5
+
+  TodoCreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda
+      Handler: todo-create.lambda_handler
+      FunctionName: TodoCreateFunction
+      Runtime: python3.6
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TodoTable
+      Events:
+        PostResource:
+          Type: Api
+          Properties:
+            Path: /todo
+            Method: post
+
+  TodoReadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda
+      Handler: todo-read.lambda_handler
+      FunctionName: TodoReadFunction
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TodoTable
+      Events:
+        PostResource:
+          Type: Api
+          Properties:
+            Path: /todo/{resourceId}
+            Method: get
