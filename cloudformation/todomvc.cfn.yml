@@ -51,7 +51,7 @@ Resources:
       CodeUri: ../lambda
       Handler: todo-read.lambda_handler
       FunctionName: TodoReadFunction
-      Runtime: nodejs6.10
+      Runtime: python3.6
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
@@ -62,3 +62,39 @@ Resources:
           Properties:
             Path: /todo/{resourceId}
             Method: get
+
+  TodoUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda
+      Handler: todo-update.lambda_handler
+      FunctionName: TodoUpdateFunction
+      Runtime: python3.6
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TodoTable
+      Events:
+        PostResource:
+          Type: Api
+          Properties:
+            Path: /todo/{resourceId}
+            Method: put
+
+  TodoDeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda
+      Handler: todo-delete.lambda_handler
+      FunctionName: TodoDeleteFunction
+      Runtime: python3.6
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TodoTable
+      Events:
+        PostResource:
+          Type: Api
+          Properties:
+            Path: /todo/{resourceId}
+            Method: delete

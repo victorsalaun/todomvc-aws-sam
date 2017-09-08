@@ -4,31 +4,23 @@ from botocore.exceptions import ClientError
 import json
 import logging
 import os
-import uuid
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
 def lambda_handler(event, context):
-    logger.info("Received event: " + json.dumps(json.loads(event["body"]), indent=2))
     try:
-        todo = json.loads(event["body"])
         table_name = os.environ['TABLE_NAME']
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table(table_name)
-        todo['todo']['todo_id'] = str(uuid.uuid4())
-        table.put_item(
-            Item=todo['todo']
-        )
-        result_todo = table.get_item(
+        table.delete_item(
             Key={
-                'todo_id': todo['todo']['todo_id']
+                'todo_id': event['pathParameters']['resourceId']
             }
         )
         response = {
-            "statusCode": "200",
-            "body": json.dumps(result_todo["Item"])
+            "statusCode": "200"
         }
         return response
     except ClientError as e:
