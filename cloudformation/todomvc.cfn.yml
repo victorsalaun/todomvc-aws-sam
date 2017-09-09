@@ -34,6 +34,8 @@ Resources:
       Handler: todo-create.lambda_handler
       FunctionName: TodoCreateFunction
       Runtime: python3.6
+      MemorySize: 128
+      Timeout: 3
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
@@ -53,6 +55,8 @@ Resources:
       Handler: todo-read.lambda_handler
       FunctionName: TodoReadFunction
       Runtime: python3.6
+      MemorySize: 128
+      Timeout: 3
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
@@ -72,6 +76,8 @@ Resources:
       Handler: todo-update.lambda_handler
       FunctionName: TodoUpdateFunction
       Runtime: python3.6
+      MemorySize: 128
+      Timeout: 3
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
@@ -91,6 +97,8 @@ Resources:
       Handler: todo-delete.lambda_handler
       FunctionName: TodoDeleteFunction
       Runtime: python3.6
+      MemorySize: 128
+      Timeout: 3
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
