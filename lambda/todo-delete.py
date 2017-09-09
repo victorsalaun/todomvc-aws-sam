@@ -20,13 +20,21 @@ def lambda_handler(event, context):
             }
         )
         response = {
-            "statusCode": "200"
+            "statusCode": "200",
+            "headers": {
+                'Access-Control-Allow-Origin': os.environ['CORS'],
+                'Content-Type': 'application/json'
+            }
         }
         return response
     except ClientError as e:
         logger.error(e.response['Error']['Message'])
         response = {
             "statusCode": "400",
+            "headers": {
+                'Access-Control-Allow-Origin': os.environ['CORS'],
+                'Content-Type': 'application/json'
+            },
             "message": json.dumps(e.response['Error']['Message'])
         }
         return response

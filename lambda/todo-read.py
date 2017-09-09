@@ -28,6 +28,10 @@ def getItem(id):
         )
         response = {
             "statusCode": "200",
+            "headers": {
+                'Access-Control-Allow-Origin': os.environ['CORS'],
+                'Content-Type': 'application/json'
+            },
             "body": json.dumps(result_todo["Item"])
         }
         return response
@@ -35,6 +39,10 @@ def getItem(id):
         logger.error(e.response['Error']['Message'])
         response = {
             "statusCode": "400",
+            "headers": {
+                'Access-Control-Allow-Origin': os.environ['CORS'],
+                'Content-Type': 'application/json'
+            },
             "message": json.dumps(e.response['Error']['Message'])
         }
         return response
@@ -48,6 +56,10 @@ def scan():
         items = table.scan()
         response = {
             "statusCode": "200",
+            "headers": {
+                'Access-Control-Allow-Origin': os.environ['CORS'],
+                'Content-Type': 'application/json'
+            },
             "body": json.dumps(items["Items"])
         }
         return response
@@ -55,6 +67,10 @@ def scan():
         logger.error(e.response['Error']['Message'])
         response = {
             "statusCode": "400",
+            "headers": {
+                'Access-Control-Allow-Origin': os.environ['CORS'],
+                'Content-Type': 'application/json'
+            },
             "message": json.dumps(e.response['Error']['Message'])
         }
         return response

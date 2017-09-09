@@ -37,13 +37,14 @@ Resources:
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
+          CORS: "*"
           TABLE_NAME: !Ref TodoTable
       Events:
-        PostResource:
+        CreateResource:
           Type: Api
           Properties:
-            Path: /todo
-            Method: post
+            Path: /todo/{resourceId}
+            Method: POST
 
   TodoReadFunction:
     Type: AWS::Serverless::Function
@@ -55,13 +56,14 @@ Resources:
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
+          CORS: "*"
           TABLE_NAME: !Ref TodoTable
       Events:
-        PostResource:
+        ReadResource:
           Type: Api
           Properties:
             Path: /todo/{resourceId}
-            Method: get
+            Method: GET
 
   TodoUpdateFunction:
     Type: AWS::Serverless::Function
@@ -73,13 +75,14 @@ Resources:
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
+          CORS: "*"
           TABLE_NAME: !Ref TodoTable
       Events:
-        PostResource:
+        UpdateResource:
           Type: Api
           Properties:
             Path: /todo/{resourceId}
-            Method: put
+            Method: PUT
 
   TodoDeleteFunction:
     Type: AWS::Serverless::Function
@@ -91,10 +94,11 @@ Resources:
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
+          CORS: "*"
           TABLE_NAME: !Ref TodoTable
       Events:
-        PostResource:
+        DeleteResource:
           Type: Api
           Properties:
             Path: /todo/{resourceId}
-            Method: delete
+            Method: DELETE

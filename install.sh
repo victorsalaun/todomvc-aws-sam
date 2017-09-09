@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-DIGITS_RE='^[0-9]+$'
 TEMPLATE_FILE_NAME='todomvc.cfn.yml'
 PACKAGE_FILE_NAME='todomvc-xfm.cfn.yml'
 STACK_NAME='TodoApp'
