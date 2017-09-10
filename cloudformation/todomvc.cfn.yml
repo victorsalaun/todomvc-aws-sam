@@ -1,15 +1,4 @@
-# To deploy for the first time, and for each update,
-# run both of the following commands in order:
-#
-# aws cloudformation package \
-# --template-file todomvc.cfn.yml \
-# --output-template-file serverless-xfm.cfn.yml \
-# --s3-bucket <your-s3-bucket-name>
-#
-# aws cloudformation deploy \
-# --template-file <path-to-file/serverless-xfm.cfn.yml> \
-# --stack-name StartupKitServerless \
-# --capabilities CAPABILITY_IAM
+---
 
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
@@ -27,12 +16,12 @@ Resources:
          ReadCapacityUnits: 5
          WriteCapacityUnits: 5
 
-  TodoCreateFunction:
+  TodoFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../lambda
-      Handler: todo-create.lambda_handler
-      FunctionName: TodoCreateFunction
+      Handler: todo.lambda_handler
+      FunctionName: TodoFunction
       Runtime: python3.6
       MemorySize: 128
       Timeout: 3
@@ -42,71 +31,8 @@ Resources:
           CORS: "*"
           TABLE_NAME: !Ref TodoTable
       Events:
-        CreateResource:
+        Resource:
           Type: Api
           Properties:
-            Path: /todo/{resourceId}
-            Method: POST
-
-  TodoReadFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ../lambda
-      Handler: todo-read.lambda_handler
-      FunctionName: TodoReadFunction
-      Runtime: python3.6
-      MemorySize: 128
-      Timeout: 3
-      Policies: AmazonDynamoDBFullAccess
-      Environment:
-        Variables:
-          CORS: "*"
-          TABLE_NAME: !Ref TodoTable
-      Events:
-        ReadResource:
-          Type: Api
-          Properties:
-            Path: /todo/{resourceId}
-            Method: GET
-
-  TodoUpdateFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ../lambda
-      Handler: todo-update.lambda_handler
-      FunctionName: TodoUpdateFunction
-      Runtime: python3.6
-      MemorySize: 128
-      Timeout: 3
-      Policies: AmazonDynamoDBFullAccess
-      Environment:
-        Variables:
-          CORS: "*"
-          TABLE_NAME: !Ref TodoTable
-      Events:
-        UpdateResource:
-          Type: Api
-          Properties:
-            Path: /todo/{resourceId}
-            Method: PUT
-
-  TodoDeleteFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ../lambda
-      Handler: todo-delete.lambda_handler
-      FunctionName: TodoDeleteFunction
-      Runtime: python3.6
-      MemorySize: 128
-      Timeout: 3
-      Policies: AmazonDynamoDBFullAccess
-      Environment:
-        Variables:
-          CORS: "*"
-          TABLE_NAME: !Ref TodoTable
-      Events:
-        DeleteResource:
-          Type: Api
-          Properties:
-            Path: /todo/{resourceId}
-            Method: DELETE
+            Path: /todo
+            Method: any
